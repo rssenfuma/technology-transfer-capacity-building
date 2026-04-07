@@ -21,22 +21,23 @@ df = pd.DataFrame(audit_metrics)
 df['Equity_Gap'] = (df['Africa_Actual'] / df['Global_Benchmark']) * 100
 
 def run_forensic_dashboard():
-    # Adjusted grid for 7 rows (removing the footer/note block)
+    # Adjusted height_ratios: Reduced Row 5 (Why It Matters) to pull Row 6 (Evidence) upward
     fig = plt.figure(figsize=(14, 28), facecolor='#fdfdfd')
-    gs = fig.add_gridspec(7, 1, height_ratios=[0.4, 0.8, 0.8, 0.8, 0.8, 0.35, 0.7])
+    gs = fig.add_gridspec(7, 1, height_ratios=[0.4, 0.8, 0.8, 0.8, 0.8, 0.22, 0.8])
 
     # --- 1. KEY FINDING REPORT ---
     ax_key = fig.add_subplot(gs[0])
     ax_key.axis('off')
-    key_text = (
-        "KEY FINDING REPORT\n"
+    # Heading Bolded
+    ax_key.text(0, 0.85, "KEY FINDING REPORT", fontsize=14, fontweight='bold', family='monospace')
+    key_body = (
         "My forensic audit of 23,873 clinical trials across Africa reveals a major gap in how research is done. "
         "While thousands of studies take place, only 0.33% (just 80 trials) actually include a plan for "
         "Technology Transfer or Capacity Building. This means that in nearly every case, foreign teams come "
         "to our hospitals, collect our data, and leave without upgrading our local labs or training our teams "
         "to lead the next study. We are essentially 'hosting' research rather than 'owning' it."
     )
-    ax_key.text(0, 0.5, key_text, fontsize=13, wrap=True, family='monospace', verticalalignment='center')
+    ax_key.text(0, 0.65, key_body, fontsize=13, wrap=True, family='monospace', verticalalignment='top')
 
     # --- 2. STATISTICS: EQUITY PROFILE ---
     ax1 = fig.add_subplot(gs[1])
@@ -71,24 +72,26 @@ def run_forensic_dashboard():
     ax4.set_ylabel("% Without Shared Results")
     ax4.grid(True, linestyle='--', alpha=0.3)
 
-    # --- 6. WHY IT MATTERS ---
+    # --- 6. WHY IT MATTERS (Tighter Spacing) ---
     ax_why = fig.add_subplot(gs[5])
     ax_why.axis('off')
-    why_text = (
-        "WHY IT MATTERS\n"
+    # Heading Bolded and pushed to the top (y=0.98)
+    ax_why.text(0, 0.98, "WHY IT MATTERS", fontsize=14, fontweight='bold', family='monospace')
+    why_body = (
         "This inequality matters because it creates a cycle of dependency. If a trial at Kayunga Hospital "
         "doesn't leave behind a permanent electronic record system (like OpenMRS) or better diagnostic tools, "
         "we remain stuck as data collectors for the rest of the world. True equity isn't just about finding "
         "a cure; it’s about making sure that the hospitals providing the patients also gain the skills and "
         "equipment to run their own science in the future."
     )
-    ax_why.text(0, 0.9, why_text, fontsize=13, wrap=True, family='monospace', verticalalignment='top')
+    ax_why.text(0, 0.85, why_body, fontsize=13, wrap=True, family='monospace', verticalalignment='top')
 
-    # --- 7. THE EVIDENCE ---
+    # --- 7. THE EVIDENCE (Tighter Spacing) ---
     ax_evidence = fig.add_subplot(gs[6])
     ax_evidence.axis('off')
-    evidence_text = (
-        "THE EVIDENCE\n"
+    # Heading Bolded and pushed to the absolute top (y=1.0) to meet 'Why It Matters'
+    ax_evidence.text(0, 1.0, "THE EVIDENCE", fontsize=14, fontweight='bold', family='monospace')
+    evidence_body = (
         "Every time a foreign research team arrives at a government facility like Mukono General or Kawolo Hospital, "
         "they bring hope for better medicine, but they rarely leave behind the tools to create it ourselves. "
         "While auditing 23,873 African clinical trials, I found a heartbreaking statistic: less than one percent "
@@ -101,7 +104,7 @@ def run_forensic_dashboard():
         "OpenMRS systems we use to track patient outcomes in our district hospitals like Kayunga. "
         "This effort is not just about science. It is about national health sovereignty."
     )
-    ax_evidence.text(0, 0.9, evidence_text, fontsize=12, wrap=True, family='serif', verticalalignment='top')
+    ax_evidence.text(0, 0.9, evidence_body, fontsize=13, wrap=True, family='monospace', verticalalignment='top')
 
     plt.tight_layout()
     plt.show()
